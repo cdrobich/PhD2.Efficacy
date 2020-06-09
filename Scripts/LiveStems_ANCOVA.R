@@ -85,8 +85,10 @@ YearTwo %>% group_by(Treatment) %>% summarise(Water.avg = mean(Depth),
 
 ### ANCOVA figure ####
 
-line <- ggplot(YearTwo, aes(x = Depth, y = LiveStem, shape = Treatment, color = Treatment)) +
-  geom_point(size = 2) +
+Figure <- ggplot(YearTwo, aes(x = Depth, y = LiveStem, shape = Treatment, color = Treatment)) 
+
+
+Figures <- Figure + geom_point(size = 2) +
   stat_smooth(method = lm, level = 0.95, colour = "#999999") +
   theme_classic() +
   scale_color_manual(values = c("#d8b365","#5ab4ac")) +
@@ -99,5 +101,6 @@ line <- ggplot(YearTwo, aes(x = Depth, y = LiveStem, shape = Treatment, color = 
        y = expression(paste("Live Stem Density per m"^-2))) 
 
 
-line 
+Figures
 
+ggsave("Figures/Stems_ANCOVA.JPEG")
