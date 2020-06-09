@@ -89,7 +89,7 @@ MeadowRef <- meadows +  scale_color_manual(values = c(c("#5ab4ac","#5ab4ac", "#5
 
 MeadowRef
 
-
+ggsave("Figures/Meadow_distances.JPEG")
 
 #### distance to cattail ####
 
@@ -138,7 +138,7 @@ EmergentRef <- cattails +  scale_color_manual(values = c("#5ab4ac","#5ab4ac", "#
 
 EmergentRef
 
-
+ggsave("Figures/Emergent marsh_distances.JPEG")
 
 # one way ANOVA distance to control condition 
 
@@ -185,6 +185,8 @@ ControlRef <- controls + scale_color_manual(values = c("#5ab4ac","#5ab4ac", "#5a
         axis.text.y = element_text(size = 14))
 
 ControlRef
+
+ggsave("Figures/Control_Distances.JPEG")
 
 ##### panel #####
 
