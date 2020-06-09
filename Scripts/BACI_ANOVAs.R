@@ -126,6 +126,7 @@ LiveStems <- Lives + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
 
 LiveStems
 
+ggsave("Figures/LiveStems_ANOVA.JPEG")
 
 ##### Total Phragmites stem density, two-way ANOVA ####
 
@@ -186,6 +187,7 @@ TotalStems <- Totals + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
 
 TotalStems
 
+ggsave("Figures/TotalStem_ANOVA.JPEG")
 
 ##### Canopy Height, two-way ANOVA ####
 
@@ -242,6 +244,7 @@ CanopyHeight <- Heights + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
 
 CanopyHeight
 
+ggsave("Figures/CanopyHeight_ANOVA.JPEG")
 
 #### Incident light, two-way ANOVA ####
 
@@ -302,8 +305,11 @@ logLight <- Lights + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
 logLight 
 
 
+ggsave("Figures/Light_ANOVA.JPEG")
 
 #### ANOVA Figure Panel #####
 library(gridExtra)
 
 grid.arrange(LiveStems, TotalStems, CanopyHeight, logLight, nrow = 2)
+
+
