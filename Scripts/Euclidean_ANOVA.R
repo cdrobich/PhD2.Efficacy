@@ -191,4 +191,11 @@ ggsave("Figures/Control_Distances.JPEG")
 ##### panel #####
 
 grid.arrange(ControlRef, EmergentRef, MeadowRef, ncol = 3)
+ 
+panel <- arrangeGrob(ControlRef, EmergentRef, MeadowRef, ncol = 3)
+panel
+
+ggsave("Figures/Euclidean_panel.JPEG", panel)
+  
+)
 
