@@ -15,3 +15,7 @@ Data collected from Long Point peninsula and Rondeau Provincial Park following a
     community composition, and percent incident light
     
   * 2016 accidental spray of site (RPC16 I think?) so recoded as "Treatment" (n = 41); 2018 could not reach RPC40 (I think?) 
+  
+  
+  Efficacy_Univariate_2016_2018 - response variables related to phragmites presence, all three years
+  Distances_NMS_rares_1JUN20 - Euclidean distances between treated sites and a Control centroid, an emergent marsh and a meadow marsh centroid. 
