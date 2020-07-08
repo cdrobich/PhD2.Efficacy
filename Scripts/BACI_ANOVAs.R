@@ -96,6 +96,8 @@ Efficacy %>% group_by(Treatment, Year) %>% summarise(LiveStem.avg = mean(LiveSte
 # Treatment three       1.5       5.6 
 # Treatment two         0.1       0.6
 
+# 99.7% reduction in year one, and 95.9% reduction in year two (compared to before)
+
 ### Live Stem ANOVA figure ####
 
 ## Create column that combines treatment and  year
