@@ -50,14 +50,13 @@ ANCOVA <- lm(LiveStem ~ Treatment * Depth, data = YearTwo)
 
 Anova(ANCOVA, type = "3")
 
-# Response: LiveStem
-# Sum Sq Df F value    Pr(>F)    
-# (Intercept)      1765.9  1 13.4028 0.0004618 ***
-# Treatment         563.2  1  4.2748 0.0420856 *  
-# Depth             165.3  1  1.2544 0.2662431    
-# Treatment:Depth    67.4  1  0.5114 0.4767202    
-# Residuals       10013.7 76 
-
+#Response: LiveStem
+#                   Sum Sq Df F value    Pr(>F)    
+#  (Intercept)     2538.9  1 21.8070 1.274e-05 ***
+#  Treatment        988.5  1  8.4902  0.004687 ** 
+#  Depth              8.8  1  0.0757  0.783910    
+#  Treatment:Depth    5.0  1  0.0430  0.836327    
+# Residuals       8848.4 76  
 
 # Remove the interaction term, since it was not significant 
 
@@ -65,12 +64,13 @@ ANCOVA1 <- lm(LiveStem ~ Depth + Treatment, data = YearTwo)
 
 Anova(ANCOVA1, type = "3")
 
-# Response: LiveStem
-# Sum Sq Df  F value    Pr(>F)    
-# (Intercept)  3391.3  1  25.9027 2.473e-06 ***
-# Depth          98.1  1   0.7493    0.3894    
-# Treatment   24819.3  1 189.5712 < 2.2e-16 ***
-# Residuals   10081.1 77 
+#Anova Table (Type III tests)
+#Response: LiveStem
+#Sum Sq Df  F value    Pr(>F)    
+#(Intercept)  4562.3  1  39.6791 1.706e-08 ***
+#  Depth           4.0  1   0.0344    0.8534    
+# Treatment   26047.0  1 226.5367 < 2.2e-16 ***
+#  Residuals    8853.4 77
 
 plot(residuals(ANCOVA1)~fitted(ANCOVA1)) # kind of wonky with the treated sites since there is no growth
 
@@ -79,8 +79,8 @@ YearTwo %>% group_by(Treatment) %>% summarise(Water.avg = mean(Depth),
                                      LiveStem.sd = sd(LiveStem))
 
 #Treatment Water.avg LiveStem.avg LiveStem.sd
-#  1 Control        43.5        35.9      16.1  
-# 2 Treatment      48.4         0.1       0.632
+#  1 Control        43.9      36.8         15.3  
+#  2 Treatment      47.8       0.0976       0.625
 
 
 ### ANCOVA figure ####
