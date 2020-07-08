@@ -320,3 +320,29 @@ anovas
 
 ggsave("Figures/ANOVA_panel.JPEG", anovas)
 
+
+##### Water depth and plots
+
+water <- ggplot(Efficacy, aes(x = Date, y = Depth)) +
+  geom_jitter(aes(shape = Treatment, color = Treatment), 
+  position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
+  size = 2) +
+  theme_classic() +
+  stat_summary(
+    aes(shape = Treatment),
+    fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
+    geom = "pointrange", size = 0.6,
+    position = position_dodge(0.8)
+  ) +
+  labs(x = " ",
+       y = expression(paste("Water Depth (Cm)"))) +
+  scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+  theme(panel.border = element_rect(fill = NA)) +
+  theme(text = element_text(size = 16),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14)) +
+  ylim(-10, 100)
+
+water
+
+ggsave("Figures/Water depth_trtyr.JPEG", water)
