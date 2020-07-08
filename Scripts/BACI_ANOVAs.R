@@ -267,7 +267,7 @@ plot(residuals(LightsANOVA)~fitted(LightsANOVA))
 Efficacy %>% group_by(Treatment, Year) %>% summarise(Light.avg = mean(Light),
                                                      Light.sd = sd(Light)) 
 
-#Treatment Year  Light.avg Light.sd
+#Treatment   Year  Light.avg  Light.sd
 #1 Control   one        4.06     4.27
 #2 Control   three      6.05     8.58
 #3 Control   two        6.04     7.47
