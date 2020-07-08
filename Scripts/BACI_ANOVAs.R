@@ -70,12 +70,15 @@ summary(LiveANOVA)
 
 Anova(LiveANOVA, type = "3") # apply Type III sums of square
 
-#                Sum Sq  Df  F value  Pr(>F)    
-# (Intercept)     47078   1 322.9347 < 2e-16 ***
-#  Year              989   2   3.3931 0.03527 *  
-#  Treatment         102   1   0.6981 0.40429    
-#  Year:Treatment  16123   2  55.2985 < 2e-16 ***
-#  Residuals       33967 233       
+
+#Response: LiveStem
+#Sum Sq  Df  F value  Pr(>F)    
+#(Intercept)     47078   1 339.7960 < 2e-16 ***
+#  Year             1002   2   3.6150 0.02844 *  
+#  Treatment         102   1   0.7345 0.39231    
+#  Year:Treatment  16795   2  60.6120 < 2e-16 ***
+#  Residuals       32281 233   
+
 
 plot(residuals(LiveANOVA)~fitted(LiveANOVA)) # plot ANOVA residuals (look ok)
 
@@ -87,11 +90,11 @@ Efficacy %>% group_by(Treatment, Year) %>% summarise(LiveStem.avg = mean(LiveSte
 
 # Treatment Year  LiveStem.avg LiveStem.sd
 # Control   one          34.7       13.1  
-# Control   three        29.3       12.6  
-# Control   two          35.9       16.1  
-# Treatment one          37         15.8  
-# Treatment three       1.32       5.55 
-# Treatment two         .1        0.632
+# Control   three        29.8       12.3  
+# Control   two          36.8       15.3  
+# Treatment one          37.0         15.8  
+# Treatment three       1.5       5.6 
+# Treatment two         0.1       0.6
 
 ### Live Stem ANOVA figure ####
 
@@ -134,13 +137,13 @@ TotalANOVA
 
 Anova(TotalANOVA, type = "3") # Type III Sums of Squares
 
-# Response: TotalStem
-# Sum Sq  Df  F value    Pr(>F)    
-# (Intercept)    408208   1 186.5056 < 2.2e-16 ***
-#  Year             1283   2   0.2932    0.7462    
-# Treatment         670   1   0.3061    0.5806    
-# Year:Treatment  79669   2  18.1999 4.526e-08 ***
-#  Residuals      509971 233  
+#Response: TotalStem
+#Sum Sq  Df  F value    Pr(>F)    
+#(Intercept)    408208   1 190.1483 < 2.2e-16 ***
+#  Year             1924   2   0.4482    0.6394    
+#  Treatment         670   1   0.3121    0.5769    
+#  Year:Treatment  82836   2  19.2931 1.765e-08 ***
+#  Residuals      500201 233   
 
 par(mfrow = c(1,1))
 plot(residuals(TotalANOVA)~fitted(TotalANOVA)) # plots residuals
@@ -151,13 +154,13 @@ Efficacy %>% group_by(Treatment, Year) %>% summarise(TotalStem.avg = mean(TotalS
                                                      TotalStem.sd = sd(TotalStem)) 
 
 
-# Treatment Year  TotalStem.avg TotalStem.sd
-# 1 Control   one           102.          46.3
-# 2 Control   three         104.          49.9
-# 3 Control   two           110.          50.2
-# 4 Treatment one           108.          47.5
-# 5 Treatment three          23.8         30.7
-# 6 Treatment two            50.8         52.8
+#Treatment Year  TotalStem.avg TotalStem.sd
+#1 Control   one           102.          46.3
+#2 Control   three         105.          49.5
+#3 Control   two           112.          49.0
+#4 Treatment one           108.          47.5
+#5 Treatment three          24.3         30.5
+#6 Treatment two            50.2         52.3
 
 #### Total Stem two-way ANOVA figure ####
 
@@ -193,13 +196,13 @@ CanopyHANOVA<-lm(CanopyH ~ Year*Treatment, data = Efficacy)
 
 Anova(CanopyHANOVA, type = "3")
 
-# Response: CanopyH
-#Sum Sq  Df   F value Pr(>F)    
-# (Intercept)    5098415   1 1181.0195 <2e-16 ***
-# Year               516   2    0.0598 0.9420    
-# Treatment          198   1    0.0459 0.8305    
-# Year:Treatment 1143343   2  132.4245 <2e-16 ***
-# Residuals      1005852 233
+#Response: CanopyH
+#                Sum Sq  Df   F value Pr(>F)    
+# (Intercept)    5098415   1 1217.4747 <2e-16 ***
+#  Year              2237   2    0.2671 0.7659    
+#  Treatment          198   1    0.0473 0.8279    
+#  Year:Treatment 1157902   2  138.2504 <2e-16 ***
+#  Residuals       975733 233 
 
 par(mfrow = c(1,1))
 plot(residuals(CanopyHANOVA)~fitted(CanopyHANOVA))
@@ -208,12 +211,12 @@ Efficacy %>% group_by(Treatment, Year) %>% summarise(CanopyHeight.avg = mean(Can
                                                      CanopyHeight.sd = sd(CanopyH)) 
 
 #Treatment Year  CanopyHeight.avg CanopyHeight.sd
-# 1 Control   one              362.             61.1
-# 2 Control   three            364.             50.0
-# 3 Control   two              367.             61.1
-# 4 Treatment one              358.             41.5
-# 5 Treatment three            118.            101. 
-# 6 Treatment two               38.0            64.0
+#1 Control   one              362.             61.1
+#2 Control   three            367.             47.4
+#3 Control   two              372.             50.4
+#4 Treatment one              358.             41.5
+#5 Treatment three            121.            102. 
+#6 Treatment two               40.7            65.5
 
 
 ##### Canopy height, two-way ANOVA figure ####
@@ -248,13 +251,14 @@ LightsANOVA<-lm(logLight ~ Year*Treatment, data = Efficacy)
 
 Anova(LightsANOVA, type = "3")
 
-# Response: logLight
-# Sum Sq  Df F value    Pr(>F)    
-# (Intercept)     6.392   1 39.9988 1.285e-09 ***
-# Year            0.747   2  2.3371   0.09887 .  
-# Treatment       0.183   1  1.1451   0.28568    
-# Year:Treatment 14.172   2 44.3400 < 2.2e-16 ***
-# Residuals      37.235 233    
+#Response: logLight
+#Sum Sq  Df F value    Pr(>F)    
+#(Intercept)     6.392   1 43.4191 2.915e-10 ***
+# Year            0.500   2  1.6969    0.1855    
+# Treatment       0.183   1  1.2431    0.2660    
+# Year:Treatment 15.077   2 51.2076 < 2.2e-16 ***
+#  Residuals      34.302 233                      
+
 
 par(mfrow = c(1,1))
 plot(residuals(LightsANOVA)~fitted(LightsANOVA))
@@ -263,14 +267,13 @@ plot(residuals(LightsANOVA)~fitted(LightsANOVA))
 Efficacy %>% group_by(Treatment, Year) %>% summarise(Light.avg = mean(Light),
                                                      Light.sd = sd(Light)) 
 
-# Treatment Year  Light.avg Light.sd
-# 1 Control   one        4.06     4.27
-# 2 Control   three      7.01    10.4 
-# 3 Control   two        7.89    13.9 
-# 4 Treatment one        4.67     3.88
-# 5 Treatment three     61.5     26.8 
-# 6 Treatment two       55.7     27.4
-
+#Treatment Year  Light.avg Light.sd
+#1 Control   one        4.06     4.27
+#2 Control   three      6.05     8.58
+#3 Control   two        6.04     7.47
+#4 Treatment one        4.67     3.88
+#5 Treatment three     61.1     26.6 
+#6 Treatment two       56.3     27.4 
 
 
 ##### Incident light, two-way ANOVA figure #####
