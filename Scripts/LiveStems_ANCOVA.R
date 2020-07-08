@@ -93,10 +93,10 @@ Figures <- Figure + geom_point(size = 2) +
   theme_classic() +
   scale_color_manual(values = c("#d8b365","#5ab4ac")) +
   theme(panel.border = element_rect(fill = NA)) +
-  theme(text = element_text(size = 14),
-        legend.text = element_text(size = 14),
-        axis.text.x = element_text(size = 14),
-        axis.text.y = element_text(size = 14)) +
+  theme(text = element_text(size = 18),
+        legend.text = element_text(size = 18),
+        axis.text.x = element_text(size = 18),
+        axis.text.y = element_text(size = 18)) +
   labs(x = "Water Depth (cm)",
        y = expression(paste("Live Stem Density per m"^-2))) 
 

@@ -72,8 +72,8 @@ Anova(LiveANOVA, type = "3") # apply Type III sums of square
 
 
 #Response: LiveStem
-#Sum Sq  Df  F value  Pr(>F)    
-#(Intercept)     47078   1 339.7960 < 2e-16 ***
+#                Sum Sq  Df  F value  Pr(>F)    
+#  (Intercept)     47078   1 339.7960 < 2e-16 ***
 #  Year             1002   2   3.6150 0.02844 *  
 #  Treatment         102   1   0.7345 0.39231    
 #  Year:Treatment  16795   2  60.6120 < 2e-16 ***
@@ -141,8 +141,8 @@ TotalANOVA
 Anova(TotalANOVA, type = "3") # Type III Sums of Squares
 
 #Response: TotalStem
-#Sum Sq  Df  F value    Pr(>F)    
-#(Intercept)    408208   1 190.1483 < 2.2e-16 ***
+#                 Sum Sq  Df  F value    Pr(>F)    
+#  (Intercept)    408208   1 190.1483 < 2.2e-16 ***
 #  Year             1924   2   0.4482    0.6394    
 #  Treatment         670   1   0.3121    0.5769    
 #  Year:Treatment  82836   2  19.2931 1.765e-08 ***
@@ -202,7 +202,7 @@ Anova(CanopyHANOVA, type = "3")
 
 #Response: CanopyH
 #                Sum Sq  Df   F value Pr(>F)    
-# (Intercept)    5098415   1 1217.4747 <2e-16 ***
+#  (Intercept)    5098415   1 1217.4747 <2e-16 ***
 #  Year              2237   2    0.2671 0.7659    
 #  Treatment          198   1    0.0473 0.8279    
 #  Year:Treatment 1157902   2  138.2504 <2e-16 ***
@@ -258,7 +258,7 @@ Anova(LightsANOVA, type = "3")
 
 #Response: logLight
 #Sum Sq  Df F value    Pr(>F)    
-#(Intercept)     6.392   1 43.4191 2.915e-10 ***
+# (Intercept)     6.392   1 43.4191 2.915e-10 ***
 # Year            0.500   2  1.6969    0.1855    
 # Treatment       0.183   1  1.2431    0.2660    
 # Year:Treatment 15.077   2 51.2076 < 2.2e-16 ***
@@ -312,7 +312,7 @@ logLight
 #### ANOVA Figure Panel #####
 library(gridExtra)
 
-grid.arrange(LiveStems, TotalStems, CanopyHeight, logLight, nrow = 2)
+grid.arrange(LiveStems, TotalStems, CanopyHeight, logLight)
 
 
 anovas <- arrangeGrob(LiveStems, TotalStems, CanopyHeight, logLight, nrow = 2)
@@ -338,11 +338,115 @@ water <- ggplot(Efficacy, aes(x = Date, y = Depth)) +
        y = expression(paste("Water Depth (Cm)"))) +
   scale_color_manual(values = c("#d8b365","#5ab4ac")) +
   theme(panel.border = element_rect(fill = NA)) +
-  theme(text = element_text(size = 16),
-        axis.text.x = element_text(size = 14),
-        axis.text.y = element_text(size = 14)) +
+  theme(text = element_text(size = 18),
+        axis.text.x = element_text(size = 18),
+        axis.text.y = element_text(size = 18)) +
   ylim(-10, 100)
 
 water
 
 ggsave("Figures/Water depth_trtyr.JPEG", water)
+
+
+##### Compare Total Stems among parks #####
+After <- subset(Effic, 
+                Treatment == "Treatment",
+                select = SiteID:logLight)
+
+After2 <- subset(After,
+                 Year %in% c("two","three"))
+                 
+
+
+# compare
+
+total.park <- lm(TotalStem ~ Date * Location, data = After2)
+Anova(total.park, type = 3)
+
+#Response: TotalStem
+#                 Sum Sq Df F value    Pr(>F)    
+# (Intercept)     3892  1  3.9384   0.05071 .  
+# Date            1243  1  1.2580   0.26546    
+# Location       51297  1 51.9083 3.204e-10 ***
+#  Date:Location   4235  1  4.2855   0.04175 *  
+#  Residuals      77082 78
+
+
+After2 %>% group_by(Location, Year) %>% summarise(total.avg = mean(TotalStem),
+                                        total.sd = sd(TotalStem),
+                                        max.total = max(TotalStem),
+                                        min.total = min(TotalStem))
+
+#Location      Year  total.avg  total.sd  max.total  min.total
+#1 Long Point three       2.8     7.16        31         0
+#2 Long Point two        14.0    21.5         88         0
+#3 Rondeau    three      44.8    30.1        120         1
+#4 Rondeau    two        84.7    49.6        198        11
+
+location <- ggplot(After2, aes(x = Date, y = TotalStem )) +
+  geom_jitter(aes(shape = Location, color = Location), 
+              position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
+              size = 2) +
+  theme_classic() +
+  stat_summary(
+    aes(shape = Location),
+    fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
+    geom = "pointrange", size = 0.6,
+    position = position_dodge(0.8)
+  ) +
+  labs(x = " ",
+       y = expression(paste("Total Stems per m2"))) +
+  scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+  theme(panel.border = element_rect(fill = NA)) +
+  theme(text = element_text(size = 16),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14)) 
+
+location
+
+
+### light and location ####
+
+light.park <- lm(logLight ~ Year * Location, data = After2)
+Anova(light.park, type = 3)
+
+#Response: logLight
+#               Sum Sq Df  F value    Pr(>F)    
+# (Intercept)   64.209  1 968.1355 < 2.2e-16 ***
+#  Date           0.164  1   2.4755  0.119680    
+#  Location       0.470  1   7.0853  0.009434 ** 
+#  Date:Location  0.561  1   8.4604  0.004726 ** 
+#  Residuals      5.173 78 
+
+
+After2 %>% group_by(Location, Year) %>% summarise(total.avg = mean(Light),
+                                                  total.sd = sd(Light),
+                                                  max.total = max(Light),
+                                                  min.total = min(Light))
+
+#Location   Year    total.avg  total.sd  max.total  min.total
+#1 Long Point three      56.2     28.1      90.4      9.03
+#2 Long Point two        68.8     26.2      99.6     19.8 
+#3 Rondeau    three      65.7     24.9      99.4     24.9 
+#4 Rondeau    two        44.3     23.2      85.2     11.0 
+ 
+lightp <- ggplot(After2, aes(x = Date, y = Light )) +
+  geom_jitter(aes(shape = Location, color = Location), 
+              position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
+              size = 2) +
+  theme_classic() +
+  stat_summary(
+    aes(shape = Location),
+    fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
+    geom = "pointrange", size = 0.6,
+    position = position_dodge(0.8)
+  ) +
+  labs(x = " ",
+       y = expression(paste("Light"))) +
+  scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+  theme(panel.border = element_rect(fill = NA)) +
+  theme(text = element_text(size = 16),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14)) 
+
+lightp
