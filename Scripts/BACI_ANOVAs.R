@@ -125,7 +125,8 @@ LiveStems <- Lives + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
         axis.text.x = element_text(size = 14),
-        axis.text.y = element_text(size = 14))
+        axis.text.y = element_text(size = 14)) +
+  ylim(-10, 100)
 
 LiveStems
 
@@ -185,7 +186,8 @@ TotalStems <- Totals + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
         axis.text.x = element_text(size = 14),
-        axis.text.y = element_text(size = 14))
+        axis.text.y = element_text(size = 14)) +
+  ylim(-10, 250)
 
 TotalStems
 
@@ -241,7 +243,8 @@ CanopyHeight <- Heights + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
         axis.text.x = element_text(size = 14),
-        axis.text.y = element_text(size = 14))
+        axis.text.y = element_text(size = 14)) +
+  ylim(-100, 600)
 
 CanopyHeight
 
