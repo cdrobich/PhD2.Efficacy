@@ -335,7 +335,7 @@ water <- ggplot(Efficacy, aes(x = Date, y = Depth)) +
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
-       y = expression(paste("Water Depth (Cm)"))) +
+       y = expression(paste("Water Depth (cm)"))) +
   scale_color_manual(values = c("#d8b365","#5ab4ac")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 18),
