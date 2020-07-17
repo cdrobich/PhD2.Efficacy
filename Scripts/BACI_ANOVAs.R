@@ -450,3 +450,65 @@ lightp <- ggplot(After2, aes(x = Date, y = Light )) +
         axis.text.y = element_text(size = 14)) 
 
 lightp
+
+
+
+############## species richness ##########
+
+
+rich <-lm(Rich ~ Year * Treatment, data = Efficacy)
+
+Anova(rich, type = "3")
+
+# Response: Rich
+# Sum Sq  Df  F value  Pr(>F)    
+# (Intercept)    600.23   1 149.8023 < 2e-16 ***
+#  Year            24.08   2   3.0047 0.05148 .  
+# Treatment        1.48   1   0.3692 0.54404    
+# Year:Treatment  22.99   2   2.8686 0.05879 .  
+# Residuals      933.59 233                     
+# ---
+
+par(mfrow = c(1,1))
+plot(residuals(rich)~fitted(rich))
+rich.st <- rstandard(rich)
+qqnorm(rich.st)
+qqline(rich.st)
+
+Efficacy %>% group_by(Treatment, Year) %>% summarise(S.avg = mean(Rich),
+                                                     S.sd = sd(Rich)) 
+
+#Treatment Year  S.avg  S.sd
+#<fct>     <fct> <dbl> <dbl>
+#  1 Control   one    3.92  2.60
+#  2 Control   three  2.82  1.67
+# 3 Control   two    3.51  2.28
+# 4 Treatment one    4.20  2.33
+# 5 Treatment three  2.32  1.33
+# 6 Treatment two    2.27  1.48
+
+
+
+richness <- ggplot(Efficacy, aes(x = Date, y = Rich)) + 
+  geom_jitter(
+  aes(shape = Treatment, color = Treatment), 
+  position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
+  size = 2) +
+  theme_classic() +
+  stat_summary(
+    aes(shape = Treatment),
+    fun.data = "mean_sdl", fun.args = list(mult = 1),
+    geom = "pointrange", size = 0.6,
+    position = position_dodge(0.8)
+  ) +
+  labs(x = " ",
+       y = expression(paste("Species Richness"," ", " (", "per", " ", m^-2, sep=")"))) +
+  scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+  theme(panel.border = element_rect(fill = NA)) +
+  theme(text = element_text(size = 16),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14))
+
+richness 
+
+ggsave("Figures/species_richness_ANOVA.jpeg", richness)

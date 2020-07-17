@@ -104,3 +104,92 @@ Figures <- Figure + geom_point(size = 2) +
 Figures
 
 ggsave("Figures/Stems_ANCOVA.JPEG")
+
+
+#### Year three re-growth and water depth
+
+YearThree <- subset(Efficacy, Year == "three", select = SiteID:logLight)
+
+ANCOVA <- lm(LiveStem ~ Treatment * Depth, data = YearThree)
+
+Anova(ANCOVA, type = "3")
+
+#Response: LiveStem
+#Sum Sq Df F value    Pr(>F)    
+#(Intercept)     2125.5  1 23.8648 5.703e-06 ***
+#  Treatment        991.9  1 11.1363   0.00132 ** 
+#  Depth             62.8  1  0.7046   0.40391    
+# Treatment:Depth    1.6  1  0.0175   0.89499    
+# Residuals       6679.9 75 
+
+Figure <- ggplot(YearThree, aes(x = Depth, y = LiveStem, shape = Treatment, color = Treatment)) 
+
+
+Figures2 <- Figure + geom_point(size = 2) +
+  stat_smooth(method = lm, level = 0.95, colour = "#999999") +
+  theme_classic() +
+  scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+  theme(panel.border = element_rect(fill = NA)) +
+  theme(text = element_text(size = 18),
+        legend.text = element_text(size = 18),
+        axis.text.x = element_text(size = 18),
+        axis.text.y = element_text(size = 18)) +
+  labs(x = "Water Depth (cm)",
+       y = expression(paste("Live Stem Density per m"^-2))) 
+
+
+Figures2
+
+# regression
+
+regrowth <- subset(Efficacy, 
+                Treatment == "Treatment",
+                select = SiteID:logLight)
+
+regrowth2 <- subset(regrowth,
+                 Year %in% c("three"))
+
+
+regrowth3 <- lm(LiveStem ~ Depth, data = regrowth2)
+regrowth3
+summary(regrowth3)
+
+#  Coefficients:
+#  Estimate Std. Error t value Pr(>|t|)   
+#  (Intercept)    6.40100    2.01386   3.178  0.00212 **
+#  Depth         -0.10407    0.04088  -2.546  0.01287 * 
+#  Yeartwo       -5.99375    3.86497  -1.551  0.12500   
+#  Depth:Yeartwo  0.09759    0.07918   1.233  0.22144 
+
+plot(residuals(regrowth3)~fitted(regrowth3))
+regrowth.st <- rstandard(regrowth3)
+
+qqnorm(regrowth.st) # very messed up 
+qqline(regrowth.st)
+
+
+
+
+
+
+
+
+
+
+reg <- ggplot(regrowth2, aes(x = Depth, y = LiveStem, shape = Year, color = Year)) 
+
+
+regrow <- reg + geom_point(size = 2) +
+  stat_smooth(method = lm, level = 0.95, colour = "#999999") +
+  theme_classic() +
+  scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+  theme(panel.border = element_rect(fill = NA)) +
+  theme(text = element_text(size = 18),
+        legend.text = element_text(size = 18),
+        axis.text.x = element_text(size = 18),
+        axis.text.y = element_text(size = 18)) +
+  labs(x = "Water Depth (cm)",
+       y = expression(paste("Live Stem Density per m"^-2))) 
+
+
+regrow
