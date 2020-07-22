@@ -88,7 +88,7 @@ YearTwo %>% group_by(Treatment) %>% summarise(Water.avg = mean(Depth),
 Figure <- ggplot(YearTwo, aes(x = Depth, y = LiveStem, shape = Treatment, color = Treatment)) 
 
 
-Figures <- Figure + geom_point(size = 2) +
+Figures <- Figure + geom_point(size = 4) +
   stat_smooth(method = lm, level = 0.95, colour = "#999999") +
   theme_classic() +
   scale_color_manual(values = c("#d8b365","#5ab4ac")) +
