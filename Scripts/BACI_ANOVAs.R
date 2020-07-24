@@ -374,12 +374,12 @@ total.park <- lm(TotalStem ~ Date * Location, data = After2)
 Anova(total.park, type = 3)
 
 #Response: TotalStem
-#                 Sum Sq Df F value    Pr(>F)    
+#               Sum Sq Df F value    Pr(>F)    
 # (Intercept)     3892  1  3.9384   0.05071 .  
 # Date            1243  1  1.2580   0.26546    
 # Location       51297  1 51.9083 3.204e-10 ***
-#  Date:Location   4235  1  4.2855   0.04175 *  
-#  Residuals      77082 78
+# Date:Location   4235  1  4.2855   0.04175 *  
+# Residuals      77082 78
 
 
 After2 %>% group_by(Location, Year) %>% summarise(total.avg = mean(TotalStem),
