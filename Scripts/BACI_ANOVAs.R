@@ -415,6 +415,61 @@ location <- ggplot(After2, aes(x = Date, y = TotalStem )) +
 location
 
 
+
+
+live.park <- lm(LiveStem ~ Date * Location, data = After2)
+Anova(live.park, type = 3)
+
+#Response: LiveStem
+#                Sum Sq Df F value Pr(>F)
+#(Intercept)      0.00  1  0.0000 1.0000
+#Date            14.40  1  0.8832 0.3502
+#Location         0.37  1  0.0228 0.8804
+#Date:Location    0.90  1  0.0552 0.8149
+#Residuals     1271.68 78
+
+After2 %>% group_by(Location, Year) %>% summarise(avg = mean(LiveStem),
+                                                  sd = sd(LiveStem),
+                                                  max = max(LiveStem),
+                                                  min = min(LiveStem))
+
+
+# A tibble: 4 x 6
+# Groups:   Location [2]
+#Location   Year    avg    sd   max   min
+#1 Long Point three 1.2   4.92     22     0
+#2 Long Point two   0     0         0     0
+#3 Rondeau    three 1.81  6.31     28     0
+#4 Rondeau    two   0.190 0.873     4     0
+
+
+
+l.location <- ggplot(After2, aes(x = Date, y = LiveStem )) +
+  geom_jitter(aes(shape = Location, color = Location), 
+              position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
+              size = 2) +
+  theme_classic() +
+  stat_summary(
+    aes(shape = Location),
+    fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
+    geom = "pointrange", size = 0.6,
+    position = position_dodge(0.8)
+  ) +
+  labs(x = " ",
+       y = expression(paste("Live Stems per m2"))) +
+  scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+  theme(panel.border = element_rect(fill = NA)) +
+  theme(text = element_text(size = 16),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14)) 
+
+l.location
+
+
+
+
+
+
 ### light and location ####
 
 light.park <- lm(logLight ~ Year * Location, data = After2)
