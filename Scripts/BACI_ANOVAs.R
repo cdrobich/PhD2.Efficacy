@@ -86,15 +86,17 @@ plot(residuals(LiveANOVA)~fitted(LiveANOVA)) # plot ANOVA residuals (look ok)
 # Average and standard deviation among groups
 
 Efficacy %>% group_by(Treatment, Year) %>% summarise(LiveStem.avg = mean(LiveStem),
-                                               LiveStem.sd = sd(LiveStem)) 
+                                               LiveStem.sd = sd(LiveStem),
+                                               Live.min = min(LiveStem),
+                                               Live.max = max(LiveStem)) 
 
-# Treatment Year  LiveStem.avg LiveStem.sd
-# Control   one          34.7       13.1  
-# Control   three        29.8       12.3  
-# Control   two          36.8       15.3  
-# Treatment one          37.0         15.8  
-# Treatment three       1.5       5.6 
-# Treatment two         0.1       0.6
+#Treatment   Year  LiveStem.avg LiveStem.sd Live.min Live.max
+# 1 Control   one        34.7         13.1         13       68
+#2 Control   three      29.8         12.3         10       66
+#3 Control   two        36.8         15.3         14       82
+#4 Treatment one        37           15.8         11       81
+#5 Treatment three       1.51         5.61         0       28
+#6 Treatment two         0.0976       0.625        0        4
 
 # 99.7% reduction in year one, and 95.9% reduction in year two (compared to before)
 
@@ -154,16 +156,19 @@ plot(residuals(TotalANOVA)~fitted(TotalANOVA)) # plots residuals
 # Average and standard deviation among groups
 
 Efficacy %>% group_by(Treatment, Year) %>% summarise(TotalStem.avg = mean(TotalStem),
-                                                     TotalStem.sd = sd(TotalStem)) 
+                                                     TotalStem.sd = sd(TotalStem),
+                                                     min = min(TotalStem),
+                                                     max = max(TotalStem)) 
 
 
-#Treatment Year  TotalStem.avg TotalStem.sd
-#1 Control   one           102.          46.3
-#2 Control   three         105.          49.5
-#3 Control   two           112.          49.0
-#4 Treatment one           108.          47.5
-#5 Treatment three          24.3         30.5
-#6 Treatment two            50.2         52.3
+#Treatment Year  TotalStem.avg TotalStem.sd   min   max
+#<fct>     <fct>         <dbl>        <dbl> <int> <int>
+#1 Control   one           102.          46.3    20   193
+#2 Control   three         105.          49.5    37   200
+#3 Control   two           112.          49.0    15   229
+#4 Treatment one           108.          47.5    23   229
+#5 Treatment three          24.3         30.5     0   120
+#6 Treatment two            50.2         52.3     0   198
 
 #### Total Stem two-way ANOVA figure ####
 
@@ -212,15 +217,18 @@ par(mfrow = c(1,1))
 plot(residuals(CanopyHANOVA)~fitted(CanopyHANOVA))
 
 Efficacy %>% group_by(Treatment, Year) %>% summarise(CanopyHeight.avg = mean(CanopyH),
-                                                     CanopyHeight.sd = sd(CanopyH)) 
+                                                     CanopyHeight.sd = sd(CanopyH),
+                                                     min = min(CanopyH),
+                                                     max = max(CanopyH)) 
 
-#Treatment Year  CanopyHeight.avg CanopyHeight.sd
-#1 Control   one              362.             61.1
-#2 Control   three            367.             47.4
-#3 Control   two              372.             50.4
-#4 Treatment one              358.             41.5
-#5 Treatment three            121.            102. 
-#6 Treatment two               40.7            65.5
+#Treatment Year  CanopyHeight.avg CanopyHeight.sd   min   max
+
+#1 Control   one              362.             61.1   237   526
+#2 Control   three            367.             47.4   260   460
+#3 Control   two              372.             50.4   270   470
+#4 Treatment one              358.             41.5   285   470
+#5 Treatment three            121.            102.      0   275
+#6 Treatment two               40.7            65.5     0   207
 
 
 ##### Canopy height, two-way ANOVA figure ####
@@ -270,16 +278,18 @@ plot(residuals(LightsANOVA)~fitted(LightsANOVA))
 
 
 Efficacy %>% group_by(Treatment, Year) %>% summarise(Light.avg = mean(Light),
-                                                     Light.sd = sd(Light)) 
+                                                     Light.sd = sd(Light),
+                                                     min = min(Light),
+                                                     max = max(Light)) 
 
-#Treatment   Year  Light.avg  Light.sd
-#1 Control   one        4.06     4.27
-#2 Control   three      6.05     8.58
-#3 Control   two        6.04     7.47
-#4 Treatment one        4.67     3.88
-#5 Treatment three     61.1     26.6 
-#6 Treatment two       56.3     27.4 
-
+#Treatment Year  Light.avg Light.sd    min   max
+#<fct>     <fct>     <dbl>    <dbl>  <dbl> <dbl>
+#1 Control   one        4.06     4.27  0.36   17.0
+#2 Control   three      6.05     8.58  0.653  50.6
+#3 Control   two        6.04     7.47  0.62   33.8
+#4 Treatment one        4.67     3.88  0.3    13.6
+#5 Treatment three     61.1     26.6   9.03   99.4
+#6 Treatment two       56.3     27.4  11.0    99.6
 
 ##### Incident light, two-way ANOVA figure #####
 
