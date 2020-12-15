@@ -114,18 +114,18 @@ Live <- ggplot(Effic, aes(x = Date, y = LiveStem))
 Lives <- Live + geom_jitter(
   aes(shape = Treatment, color = Treatment), 
   position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
-  size = 2) +
+  size = 3) +
   theme_classic() +
   stat_summary(
     aes(shape = Treatment),
     fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
-    geom = "pointrange", size = 0.6,
+    geom = "pointrange", size = 1,
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
        y = expression(paste("Live Stem Density per m"^-2))) 
 
-LiveStems <- Lives + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+LiveStems <- Lives + scale_color_manual(values = c("#969696","#006d2c")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
         axis.text.x = element_text(size = 14),
@@ -177,19 +177,19 @@ Total <- ggplot(Effic, aes(x = Date, y = TotalStem))
 Totals <- Total + geom_jitter(
   aes(shape = Treatment, color = Treatment), 
   position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
-  size = 2) +
+  size = 3) +
   theme_classic() +
   stat_summary(     
     aes(shape = Treatment),
     fun.data = "mean_sdl", fun.args = list(mult = 1), 
-    geom = "pointrange", size = 0.6,
+    geom = "pointrange", size = 1,
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
        y = expression(paste("Total Stem Density per m"^-2)))
 
 
-TotalStems <- Totals + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+TotalStems <- Totals + scale_color_manual(values = c("#969696","#006d2c")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
         axis.text.x = element_text(size = 14),
@@ -238,18 +238,18 @@ Height <- ggplot(Effic, aes(x = Date, y = CanopyH))
 Heights <- Height + geom_jitter(
   aes(shape = Treatment, color = Treatment), 
   position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
-  size = 2) +
+  size = 3) +
   theme_classic() +
   stat_summary(
     aes(shape = Treatment),
     fun.data = "mean_sdl", fun.args = list(mult = 1),
-    geom = "pointrange", size = 0.6,
+    geom = "pointrange", size = 1,
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
        y = expression(paste("Canopy Height (cm)")))
 
-CanopyHeight <- Heights + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+CanopyHeight <- Heights + scale_color_manual(values = c("#969696","#006d2c")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
         axis.text.x = element_text(size = 14),
@@ -298,19 +298,19 @@ Light <- ggplot(Effic, aes(x = Date, y = Light))
 Lights <- Light + geom_jitter(
   aes(shape = Treatment, color = Treatment), 
   position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
-  size = 2) +
+  size = 3) +
   theme_classic() +
   stat_summary(
     aes(shape = Treatment),
     fun.data = "mean_sdl", fun.args = list(mult = 1),
-    geom = "pointrange", size = 0.6,
+    geom = "pointrange", size = 1,
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
        y = expression(paste("Percent Incident Light"," ", " (", "umol  ",  s^-1, " ", m^-2, sep=")")))
 
 
-logLight <- Lights + scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+logLight <- Lights + scale_color_manual(values = c("#969696","#006d2c")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
         axis.text.x = element_text(size = 14),
@@ -320,15 +320,21 @@ logLight
 
 
 #### ANOVA Figure Panel #####
-library(gridExtra)
-
-grid.arrange(LiveStems, TotalStems, CanopyHeight, logLight)
+library(ggpubr)
 
 
-anovas <- arrangeGrob(LiveStems, TotalStems, CanopyHeight, logLight, nrow = 2)
+anovas <- ggarrange(LiveStems, TotalStems,
+          CanopyHeight, logLight,
+          common.legend = TRUE,
+          legend = "bottom",
+          labels = "AUTO",
+          hjust = -7,
+          vjust = 2)
+
 anovas
 
-ggsave("Figures/ANOVA_panel.JPEG", anovas)
+ggsave("Figures/ANOVA_panel.TIFF", anovas,
+       dpi = 300)
 
 
 ##### Water depth and plots
@@ -336,17 +342,17 @@ ggsave("Figures/ANOVA_panel.JPEG", anovas)
 water <- ggplot(Efficacy, aes(x = Date, y = Depth)) +
   geom_jitter(aes(shape = Treatment, color = Treatment), 
   position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.8),
-  size = 2) +
+  size = 3) +
   theme_classic() +
   stat_summary(
     aes(shape = Treatment),
     fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
-    geom = "pointrange", size = 0.6,
+    geom = "pointrange", size = 1,
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
        y = expression(paste("Water Depth (cm)"))) +
-  scale_color_manual(values = c("#d8b365","#5ab4ac")) +
+  scale_color_manual(values = c("#969696","#006d2c")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 18),
         axis.text.x = element_text(size = 18),
@@ -355,7 +361,8 @@ water <- ggplot(Efficacy, aes(x = Date, y = Depth)) +
 
 water
 
-ggsave("Figures/Water depth_trtyr.JPEG", water)
+ggsave("Figures/Water depth_trtyr.TIFF", water,
+       dpi = 300)
 
 
 ##### Compare Total Stems among parks #####
