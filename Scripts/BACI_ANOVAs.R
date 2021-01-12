@@ -7,6 +7,7 @@ library(vegan)
 library(agricolae) #skewness, kurtosis, Tukeys
 library(tidyverse)
 library(car)
+library(ggpubr)
 library(Hmisc)
 
 
@@ -19,6 +20,10 @@ Efficacy$Year <- as.factor(Efficacy$Year)
 Efficacy$Date <- as.factor(Efficacy$Date)
 Efficacy$Treatment <- as.factor(Efficacy$Treatment)
 
+Effic <- Efficacy %>% 
+  unite("trtyr", Treatment:Year, remove = FALSE) 
+
+Efficacy$logLight <- log10(Efficacy$Light)
 
 unique(Efficacy$Treatment) # check there is only Control and Treatment 
 
@@ -49,7 +54,7 @@ hist(Efficacy$Light,
 
 ## Perform log10 transformation on "Light"
 
-Efficacy$logLight <- log10(Efficacy$Light)
+
 
 # see how it looks now
 
@@ -104,8 +109,6 @@ Efficacy %>% group_by(Treatment, Year) %>% summarise(LiveStem.avg = mean(LiveSte
 
 ## Create column that combines treatment and  year
 
-Effic <- Efficacy %>% 
-  unite("trtyr", Treatment:Year, remove = FALSE) 
 
 ## Make figures
 
@@ -407,12 +410,12 @@ location <- ggplot(After2, aes(x = Date, y = TotalStem )) +
   theme_classic() +
   stat_summary(
     aes(shape = Location),
-    fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
+    fun.data = "mean_se", fun.args = list(mult = 1), # average and standard deviation
     geom = "pointrange", size = 0.6,
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
-       y = expression(paste("Total Stems per m2"))) +
+       y = expression(paste("Total Stems (per m^2)"))) +
   scale_color_manual(values = c("#d8b365","#5ab4ac")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
@@ -458,7 +461,7 @@ l.location <- ggplot(After2, aes(x = Date, y = LiveStem )) +
   theme_classic() +
   stat_summary(
     aes(shape = Location),
-    fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
+    fun.data = "mean_se", fun.args = list(mult = 1), # average and standard deviation
     geom = "pointrange", size = 0.6,
     position = position_dodge(0.8)
   ) +
@@ -509,12 +512,12 @@ lightp <- ggplot(After2, aes(x = Date, y = Light )) +
   theme_classic() +
   stat_summary(
     aes(shape = Location),
-    fun.data = "mean_sdl", fun.args = list(mult = 1), # average and standard deviation
+    fun.data = "mean_se", fun.args = list(mult = 1), # average and standard deviation
     geom = "pointrange", size = 0.6,
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
-       y = expression(paste("Light"))) +
+       y = expression(paste("Incident Light (%)"))) +
   scale_color_manual(values = c("#d8b365","#5ab4ac")) +
   theme(panel.border = element_rect(fill = NA)) +
   theme(text = element_text(size = 16),
@@ -523,7 +526,15 @@ lightp <- ggplot(After2, aes(x = Date, y = Light )) +
 
 lightp
 
+(reviewer.panel <- ggarrange(location, lightp,
+          common.legend = TRUE,
+          legend= "bottom", 
+          labels = "AUTO",
+          hjust = -7,
+          vjust = 2))
 
+ggsave("Figures/reviewer_comment_panel.jpeg",
+       dpi = 300)
 
 ############## species richness ##########
 
