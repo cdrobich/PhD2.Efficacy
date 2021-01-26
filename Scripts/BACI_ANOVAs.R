@@ -1,7 +1,4 @@
 
-Efficacy <- read.csv("Data/Efficacy_univariate_2016_2018.csv")
-Efficacy
-
 
 library(vegan)
 library(agricolae) #skewness, kurtosis, Tukeys
@@ -10,6 +7,9 @@ library(car)
 library(ggpubr)
 library(Hmisc)
 
+
+Efficacy <- read.csv("Data/Efficacy_univariate_2016_2018.csv")
+Efficacy
 
 ## Examine Data
 
@@ -126,7 +126,7 @@ Lives <- Live + geom_jitter(
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
-       y = expression(paste("Live Stem Density per m"^-2))) 
+       y = expression(paste("Live Stem Density m"^-2))) 
 
 LiveStems <- Lives + scale_color_manual(values = c("#969696","#006d2c")) +
   theme(panel.border = element_rect(fill = NA)) +
@@ -189,7 +189,7 @@ Totals <- Total + geom_jitter(
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
-       y = expression(paste("Total Stem Density per m"^-2)))
+       y = expression(paste("Total Stem Density m"^-2)))
 
 
 TotalStems <- Totals + scale_color_manual(values = c("#969696","#006d2c")) +
@@ -310,7 +310,7 @@ Lights <- Light + geom_jitter(
     position = position_dodge(0.8)
   ) +
   labs(x = " ",
-       y = expression(paste("Percent Incident Light"," ", " (", "umol  ",  s^-1, " ", m^-2, sep=")")))
+       y = expression(paste("Percent Incident Light"," ", " (", "\u00B5mol  ",  s^-1, " ", m^-2, sep=")")))
 
 
 logLight <- Lights + scale_color_manual(values = c("#969696","#006d2c")) +
