@@ -133,9 +133,34 @@ LiveStems <- Lives + scale_color_manual(values = c("#969696","#006d2c")) +
   theme(text = element_text(size = 16),
         axis.text.x = element_text(size = 14),
         axis.text.y = element_text(size = 14)) +
-  ylim(-10, 100)
-
+  ylim(-10, 100) 
 LiveStems
+
+
+# for National Phrag presentation -----------------------------------------
+str(Effic)
+
+lives.plot <- ggplot(Effic, aes(x = Date, y = LiveStem, fill = Treatment))+
+  geom_boxplot(colour = "white", alpha = 0.8) +
+  theme_classic() +
+  labs(x = " ",
+       y = expression(paste("Live Stem Density m"^-2))) +
+  theme(panel.border = element_rect(fill = NA)) +
+  theme(text = element_text(size = 16),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14)) +
+  ylim(-10, 100) +
+  theme(axis.title.y = element_text(colour = "white"),
+        legend.title = element_blank(),
+        axis.text.y = element_text(colour = "white"),
+        axis.text.x = element_text(colour = "white"),
+        axis.line = element_line(colour = "white")) +
+  theme(panel.background = element_rect(
+    fill = 'black'),
+    plot.background = element_rect(fill = 'black')) +
+  scale_fill_manual(values = c("#FE7F2D", "#619B8A")) +
+  scale_shape_manual(values = c(21,22))
+
 
 
 ##### Total Phragmites stem density, two-way ANOVA ####
